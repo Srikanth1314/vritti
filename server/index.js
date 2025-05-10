@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const authRoutes = require('./routes/Auth');
 
 // Load environment variables
 dotenv.config();
@@ -17,7 +18,10 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true
 })
 .then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB error:', err));
+.catch(err => console.error('MongoDB connection error:', err));
+
+// ✅ Mount the auth routes
+app.use('/api/auth', authRoutes);
 
 // Basic route for testing
 app.get('/', (req, res) => res.send('API is working'));
